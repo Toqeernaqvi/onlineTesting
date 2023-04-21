@@ -1,0 +1,10 @@
+default: &default
+  adapter: mysql2
+  pool: 5
+  timeout: 5000
+  username: root
+  password: 12345678
+
+development:
+  <<: *default
+  database: qa-cwn-co

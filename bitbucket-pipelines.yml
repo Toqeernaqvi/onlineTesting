@@ -1,0 +1,41 @@
+image: atlassian/default-image:3
+
+pipelines:
+  pull-requests:
+    '**':
+      - step:
+          services:
+            - docker
+          script:
+            - pipe: aquasecurity/trivy-pipe:1.0.0
+              variables:
+                  scanType: "fs"
+                  hideProgress: "false"
+                  exitCode: '1'
+                  ignoreUnfixed: "true"
+                  format: 'table'
+                  severity: "CRITICAL"
+  branches:
+    master:
+    - step:
+        name: Building Production Image
+        services:
+          - docker
+        deployment: production
+        caches:
+          - docker
+        script:
+          - export DOCKER_REPO=cwndeploy/qa-cwn-co:latest
+          - docker build -t $DOCKER_REPO .
+          - docker login -u $DOCKER_HUB_USER -p $DOCKER_HUB_PASSWORD
+          - docker push ${DOCKER_REPO}
+    - step:
+        name: Deploying to production server
+        script:
+          - pipe: "atlassian/ssh-run:0.2.5"
+            variables:
+                SSH_USER: ubuntu
+                SERVER: $DO_01_IP
+                SSH_KEY: $DO_01_SSH_KEY
+                MODE: command
+                COMMAND: /home/ubuntu/qa.cwn.co/update_containers.sh

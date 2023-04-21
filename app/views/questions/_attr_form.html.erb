@@ -1,0 +1,32 @@
+<div  id="add_new_fields">
+
+        <!-- <div class="col-md-12 form-group d-flex gap-2 mb-3">
+
+            <%= select_tag 'questions[][tech_id]', options_for_select($technologies.collect{ |u| [u.name, u.id] }), class: "form-select p-2", :include_blank => false, :prompt => 'Select Technology'%>
+            <%= text_field_tag 'questions[][range]', nil, required: true, class: "form-select p-2", placeholder: 'How many questions?'%>
+        </div> -->
+        <div class="row mt-3 position-relative">
+          <div class="col-md-3">
+              <%= select_tag 'questions[][tech_id]', options_for_select($technologies.collect{ |u| [u.name, u.id] }), class: "form-select p-2", :include_blank => false, :prompt => 'Select Technology'%>
+          </div>
+          <div class="col-md-3">
+              <%= select_tag 'questions[][range]', options_for_select([1,2,3,4,5]), class: "form-select p-2", :include_blank => false, :prompt => 'How many questions?'%>
+          </div>
+          <div class="col-md-3">
+              <%= select_tag 'complexity_range_from', options_for_select(Question.complexities.keys.to_a), class: "form-select p-2", :include_blank => false%>
+          </div>
+          <div class="col-md-3">
+              <%= select_tag 'complexity_range_to', options_for_select(Question.complexities.keys.to_a), class: "form-select p-2", :include_blank => false, :prompt => 'Select Complexity level'%>
+          </div>
+          <div>
+            <svg class="position-absolute custom-position-style" xmlns="http://www.w3.org/2000/svg" width="30" height="30" viewBox="0 0 30 30">
+              <g id="Icon_feather-minus-circle" data-name="Icon feather-minus-circle" transform="translate(-3 -3)">
+                <path id="Path_1" data-name="Path 1" d="M33,18A15,15,0,1,1,18,3,15,15,0,0,1,33,18Z" fill="#f53b3b"/>
+                <path id="Path_2" data-name="Path 2" d="M12,18H24" fill="#fff" stroke="#fff" stroke-linecap="round" stroke-linejoin="round" stroke-width="3"/>
+              </g>
+              <%= link_to "Click To Remove", "", class: "remove-fields"%>
+            </svg>
+          </div>
+        </div>
+
+    </div>
